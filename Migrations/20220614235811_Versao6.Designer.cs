@@ -3,14 +3,16 @@ using System;
 using EstoqueWeb.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EstoqueWeb.Migrations
 {
     [DbContext(typeof(EstoqueWebContext))]
-    partial class EstoqueWebContextModelSnapshot : ModelSnapshot
+    [Migration("20220614235811_Versao6")]
+    partial class Versao6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,27 +32,6 @@ namespace EstoqueWeb.Migrations
                     b.HasKey("IdCategoria");
 
                     b.ToTable("Categoria");
-                });
-
-            modelBuilder.Entity("EstoqueWeb.Models.ItemPedidoModel", b =>
-                {
-                    b.Property<int>("IDPedido")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("IDProduto")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("ValorUnitario")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("IDPedido", "IDProduto");
-
-                    b.HasIndex("IDProduto");
-
-                    b.ToTable("ItemPedido");
                 });
 
             modelBuilder.Entity("EstoqueWeb.Models.PedidoModel", b =>
@@ -152,29 +133,10 @@ namespace EstoqueWeb.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("EstoqueWeb.Models.ItemPedidoModel", b =>
-                {
-                    b.HasOne("EstoqueWeb.Models.PedidoModel", "Pedido")
-                        .WithMany("ItensPedido")
-                        .HasForeignKey("IDPedido")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EstoqueWeb.Models.ProdutoModel", "Produto")
-                        .WithMany()
-                        .HasForeignKey("IDProduto")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Produto");
-                });
-
             modelBuilder.Entity("EstoqueWeb.Models.PedidoModel", b =>
                 {
                     b.HasOne("EstoqueWeb.Models.ClienteModel", "Cliente")
-                        .WithMany("Pedidos")
+                        .WithMany()
                         .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -302,16 +264,6 @@ namespace EstoqueWeb.Migrations
             modelBuilder.Entity("EstoqueWeb.Models.CategoriaModel", b =>
                 {
                     b.Navigation("PRodutod");
-                });
-
-            modelBuilder.Entity("EstoqueWeb.Models.PedidoModel", b =>
-                {
-                    b.Navigation("ItensPedido");
-                });
-
-            modelBuilder.Entity("EstoqueWeb.Models.ClienteModel", b =>
-                {
-                    b.Navigation("Pedidos");
                 });
 #pragma warning restore 612, 618
         }
